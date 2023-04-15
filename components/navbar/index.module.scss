@@ -1,0 +1,23 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: #F1F1F1;
+  height: 60px;
+  background-color: #FFF;
+  .logo {
+    margin-left: 60px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .navs {
+    margin-right: 60px;
+    a {
+      padding: 0 20px;
+      font-size: 18px;
+      color: cornflowerblue;
+      text-decoration: none;
+      &.active { color: #7e8c8d}
+    }
+  }
+}
