@@ -11,13 +11,18 @@
     font-weight: bold;
   }
   .navs {
-    margin-right: 60px;
     a {
       padding: 0 20px;
       font-size: 18px;
       color: cornflowerblue;
       text-decoration: none;
       &.active { color: #7e8c8d}
+    }
+  }
+  .operation {
+    margin-right: 60px;
+    button {
+      margin-left: 10px;
     }
   }
 }

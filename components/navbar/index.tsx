@@ -8,9 +8,19 @@ import styles from './index.module.scss';
 import { navs } from './config';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Button } from 'antd';
+import { useState } from 'react';
+import Login from '../login';
 
 const Navbar = () => {
   const { pathname } = useRouter();
+  const [showLogin, setShowLogin] = useState(false);
+  const login = () => {
+    setShowLogin(true);
+  };
+  const closeLogin = () => {
+    setShowLogin(false);
+  };
 
   return (
     <div className={styles.navbar}>
@@ -24,6 +34,13 @@ const Navbar = () => {
           </Link>
         ))}
       </section>
+      <section className={styles.operation}>
+        <Button>写文章</Button>
+        <Button type="primary" onClick={login}>
+          登录
+        </Button>
+      </section>
+      <Login show={showLogin} onClose={closeLogin} />
     </div>
   );
 };
