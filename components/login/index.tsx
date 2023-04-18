@@ -80,12 +80,16 @@ const Login = ({ show, onClose }: LoginProps) => {
     console.log('Success:', values);
     const { phone, captcha } = values;
     try {
-      const { code } = await request.post('/api/user/login', {
+      const { code, msg } = await request.post('/api/login', {
         phone,
         captcha,
+        identityType: 'phone',
       });
       if (code === 0) {
+        message.success(msg);
         onClose();
+      } else {
+        message.error(msg);
       }
     } catch (error) {
       message.error(error.msg);

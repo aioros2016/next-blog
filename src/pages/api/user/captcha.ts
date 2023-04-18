@@ -20,6 +20,7 @@ async function fetchCaptcha(req: NextApiRequest, res: NextApiResponse) {
   const sigParameter = md5(accountId + authToken + time);
   const authorization = encode(`${accountId}:${time}`);
   const captcha = Math.floor(Math.random() * (9999 - 1000)) + 1000;
+  // const captcha = '0000'
   const expireMin = 5;
   const url = `https://app.cloopen.com:8883/2013-12-26/Accounts/${accountId}/SMS/TemplateSMS?sig=${sigParameter}`;
   const { session, body } = req;
