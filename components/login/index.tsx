@@ -20,6 +20,8 @@ import { GithubOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import CountDown from '../countDown';
 import request from 'service/base';
+import { useStore } from 'store';
+import { observer } from 'mobx-react-lite';
 
 interface LoginProps {
   show: boolean;
@@ -49,13 +51,13 @@ const prefixSelector = (
   </Form.Item>
 );
 const Login = ({ show, onClose }: LoginProps) => {
+  const store = useStore();
   const [form] = Form.useForm();
   const [isCountDownStart, setIsCountDownStart] = useState(false);
 
   const countDownStart = async () => {
     try {
       const phone = form.getFieldValue('phone');
-      console.log(phone);
       if (!phone) {
         message.error('请输入手机号');
         return;
@@ -76,22 +78,33 @@ const Login = ({ show, onClose }: LoginProps) => {
   const handleCountDownEnd = () => {
     setIsCountDownStart(false);
   };
+
+  const oauthLogin = async () => {
+    const clientId = '1b76fdeefc6c5d422aac';
+    const redirectUrl = 'http://localhost:3000/api/oauth/redirect';
+    window.open(
+      `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUrl}`
+    );
+  };
   const onFinish = async (values: any) => {
     console.log('Success:', values);
     const { phone, captcha } = values;
     try {
-      const { code, msg } = await request.post('/api/login', {
+      const { code, msg, data } = await request.post('/api/user/login', {
         phone,
         captcha,
         identityType: 'phone',
       });
+      console.log('data', data);
       if (code === 0) {
         message.success(msg);
+        store.user.setUser(data);
         onClose();
       } else {
         message.error(msg);
       }
     } catch (error) {
+      console.log('error', error);
       message.error(error.msg);
     }
   };
@@ -152,7 +165,7 @@ const Login = ({ show, onClose }: LoginProps) => {
           <Row gutter={8}>
             <Col span={24}>
               其他登录：
-              <span className={styles.iconWrapper}>
+              <span className={styles.iconWrapper} onClick={oauthLogin}>
                 <GithubOutlined />
               </span>
             </Col>
@@ -187,4 +200,4 @@ const Login = ({ show, onClose }: LoginProps) => {
   );
 };
 
-export default Login;
+export default observer(Login);

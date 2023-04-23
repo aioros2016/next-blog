@@ -7,7 +7,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import * as process from 'process';
-import { User, UserAuth } from './entity';
+import { User, UserAuth, Article, Comment, Tag } from './entity';
 
 const host = process.env.DATABASE_HOST;
 const port = Number(process.env.DATABASE_PORT);
@@ -22,7 +22,7 @@ export const appDataSource = new DataSource({
   username,
   password,
   database,
-  entities: [User, UserAuth],
+  entities: [User, UserAuth, Article, Comment, Tag],
   synchronize: false,
   logging: true,
 });
